@@ -365,6 +365,7 @@ void DMA_Channel0_IRQHandler(void)
 			uint8_t data[PAYLOAD_WIDTH];
 			data[0] = gpio_input_bit_get(GPIOB, GPIO_PIN_2);											// 左摇杆Y自动回中标志
 			data[1] = key_convert(adc_data[4]) | (key_convert(adc_data[1]) << 4);	// 按键
+			data[1] = (data[1] & 0x3F) | ((data[1] >> 1) & 0x40) | ((data[1] << 1) & 0x80);
 			*(int16_t*)(data + 2) = -convert(adc_data[2], RANGE_LEFT_X);						// 左摇杆X
 			*(int16_t*)(data + 4) = data[0] ? convert(adc_data[3], RANGE_LEFT_Y) : 
 																				convert1(adc_data[3], RANGE_LEFT_Y);// 左摇杆Y

@@ -36,7 +36,7 @@ void Beep_Init(void)
 	timer_oc_struct.outputnstate = TIMER_CCXN_DISABLE;
 	timer_oc_struct.ocpolarity   = TIMER_OC_POLARITY_HIGH;
 	timer_channel_output_config(TIMER1, TIMER_CH_2, &timer_oc_struct);
-	timer_channel_output_mode_config(TIMER1, TIMER_CH_2, TIMER_OC_MODE_PWM0);
+	timer_channel_output_mode_config(TIMER1, TIMER_CH_2, TIMER_OC_MODE_PWM1); // MODE_PWM1以保证蜂鸣停后为断电状态以避免发热
 	timer_channel_output_pulse_value_config(TIMER1, TIMER_CH_2, TIM_PERIOD_T1 / 2); // 50%占空比
 	// TIM1中断
 	timer_interrupt_flag_clear(TIMER1, TIMER_INT_FLAG_UP);
