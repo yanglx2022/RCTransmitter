@@ -2,6 +2,7 @@
 * 2.4G无线  BK2425
 **********************/
 #include "bk2425.h"
+#include "print.h"
 
 #define ADDR_WIDTH   			3  		// 地址宽度(3~5bytes)
 const static uint8_t ADDRESS[ADDR_WIDTH] = {0x4A, 0x22, 0x50};// 地址
@@ -160,6 +161,7 @@ uint8_t BK2425_Transmit(uint8_t* payload)
 		if (status & TX_DS)				// 发送完成
 		{
 			Write_Reg(W_REGISTER + STATUS, 0xFF);
+			//printf("%x\t%d\t%d\t%d\t%d\t\r\n", payload[1], *(int16_t*)&payload[2], *(int16_t*)&payload[4], *(int16_t*)&payload[6] ,*(int16_t*)&payload[8]);
 			return 1;
 		}
 		else if (status & MAX_RT)	// 达到最大重发次数

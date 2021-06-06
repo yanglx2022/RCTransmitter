@@ -24,10 +24,10 @@ static const uint32_t BAT_MV[5] = {5500, 5000, 4500, 4000, 3625};	// ¼ÙÉèÂúµç6VÃ
 static uint16_t adc_data[ADC_CH_NUM] = {0};
 
 // Ò¡¸ËAD·¶Î§(Êµ²â)
-static const uint16_t RANGE_LEFT_X[4]  = {480, 1800, 1870, 3500};
-static const uint16_t RANGE_LEFT_Y[4]  = {540, 2030, 2080, 3650};
-static const uint16_t RANGE_RIGHT_X[4] = {530, 1990, 2040, 3620};
-static const uint16_t RANGE_RIGHT_Y[4] = {400, 1960, 2020, 3490};
+static const uint16_t RANGE_LEFT_X[4]  = {460, 1700, 1900, 3500};
+static const uint16_t RANGE_LEFT_Y[4]  = {550, 2000, 2100, 3650};
+static const uint16_t RANGE_RIGHT_X[4] = {600, 1920, 2120, 3620};
+static const uint16_t RANGE_RIGHT_Y[4] = {420, 1900, 2100, 3500};
 
 static void gpio_init(void);
 static void tim2_init(void);
@@ -362,6 +362,7 @@ void DMA_Channel0_IRQHandler(void)
 		// ·¢ËÍÒ¡¸Ë°´¼ü×´Ì¬
 		if (BK2425_IsReady())
 		{
+			//printf("%d\t%d\t%d\t%d\t", adc_data[2], adc_data[3], adc_data[6], adc_data[0]);
 			uint8_t data[PAYLOAD_WIDTH];
 			data[0] = gpio_input_bit_get(GPIOB, GPIO_PIN_2);											// ×óÒ¡¸ËY×Ô¶¯»ØÖÐ±êÖ¾
 			data[1] = key_convert(adc_data[4]) | (key_convert(adc_data[1]) << 4);	// °´¼ü
