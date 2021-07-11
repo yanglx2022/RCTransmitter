@@ -7,7 +7,7 @@
 #define TIM_PERIOD_T1			370		// 370us
 #define TIM_PRESCALER_T1	16
 
-static volatile int32_t cycle_cnt = 0;	// 周期计数
+static int32_t cycle_cnt = 0;	// 周期计数
 
 // 初始化
 void Beep_Init(void)

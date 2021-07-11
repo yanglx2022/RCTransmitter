@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -414,9 +414,9 @@
               <FilePath>.\User\bk2425.c</FilePath>
             </File>
             <File>
-              <FileName>key.c</FileName>
+              <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\User\key.c</FilePath>
+              <FilePath>.\User\adc.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>
@@ -427,6 +427,16 @@
               <FileName>beep.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\beep.c</FilePath>
+            </File>
+            <File>
+              <FileName>power.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\power.c</FilePath>
+            </File>
+            <File>
+              <FileName>fhss.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\fhss.c</FilePath>
             </File>
           </Files>
         </Group>

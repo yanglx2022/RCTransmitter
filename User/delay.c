@@ -3,56 +3,46 @@
 **********************/
 #include "delay.h"
 
-// 初始化
-void Delay_Init(void)
+// 初始化(利用SysTick计数值产生随机种子,因此上电开始一直计数)
+void delay_init(void)
 {
-	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk;			// 使用内核时钟
-									//SysTick_CTRL_TICKINT_Msk   |	// 开启中断
-                  //SysTick_CTRL_ENABLE_Msk;			// 启动
+	SysTick->CTRL  = 0UL;				// 使用外部时钟(HCLK/8=2MHz) 不开中断
+	SysTick->LOAD  = 0xFFFFFF;	// 最大计数
+	SysTick->VAL 	 = 0UL;				// 清空计数器
+	SysTick->CTRL |= 1UL;				// 开始计数
 }
 
-// us延时(24位计数,最大延时2^24个时钟周期,16MHz时约1048ms)
+// us延时(最大延时2^16us<SysTick溢出时间2^24/2=2^23us,因此只处理一次溢出即可)
 void delay_us(uint16_t num)
 {
-	SysTick->LOAD  = SystemCoreClock / 1000000 * num;	// 计数值
-	SysTick->VAL 	 = 0x00;		// 清空计数器
-	SysTick->CTRL |= 1 << 0;	// 开始计数
-	uint32_t ctrl = 0;
-	do
+	uint32_t start = SysTick->VAL + 0x1000000;
+	uint32_t now = start;
+	num *= 2;
+	while(((start - now) % 0x1000000) < num)
 	{
-		ctrl = SysTick->CTRL;
-	}while((ctrl & 0x01) && !(ctrl & (1 << 16)));			// 等待时间到
-	SysTick->CTRL &= ~(1 << 0);		// 关闭SYSTICK
-	SysTick->VAL   = 0x00;				// 清空计数器
-}
-
-// ms延时(24位计数,最大延时2^24个时钟周期,16MHz时约1048ms)
-static void _delay_ms(uint16_t num)
-{
-	SysTick->LOAD  = SystemCoreClock / 1000 * num;	// 计数值
-	SysTick->VAL 	 = 0x00;		// 清空计数器
-	SysTick->CTRL |= 1 << 0;	// 开始计数
-	uint32_t ctrl = 0;
-	do
-	{
-		ctrl = SysTick->CTRL;
-	}while((ctrl & 0x01) && !(ctrl & (1 << 16)));			// 等待时间到
-	SysTick->CTRL &= ~(1 << 0);		// 关闭SYSTICK
-	SysTick->VAL   = 0x00;				// 清空计数器
+		now = SysTick->VAL;
+	}
 }
 
 // ms延时
 void delay_ms(uint32_t num)
 {
-	uint32_t repeat = num / 1000;
-	uint32_t remain = num % 1000;
+	uint32_t repeat = num / 60;
+	uint32_t remain = num % 60;
 	while(repeat--)
 	{
-		_delay_ms(1000);
+		delay_us(60000);
 	}
 	if (remain)
 	{
-		_delay_ms(remain);
+		delay_us(remain * 1000);
 	}
 }
+
+// tick
+uint32_t delay_tick(void)
+{
+	return SysTick->VAL;
+}
+
 

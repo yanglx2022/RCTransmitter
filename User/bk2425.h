@@ -1,8 +1,11 @@
 /**********************
 * 2.4G无线  BK2425
 **********************/
-#ifndef __BK2425__
-#define __BK2425__
+#ifndef __BK2425__H
+#define __BK2425__H
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 #include "gd32f1x0.h"
 
@@ -58,13 +61,15 @@
 //                                        FUNCTION's PROTOTYPES                                                       //
 //********************************************************************************************************************//
 
-#define PAYLOAD_WIDTH 		10  		// 数据宽度(1~32bytes)
-
 
 uint8_t BK2425_Init(void);
-uint8_t BK2425_IsReady(void);
-uint8_t BK2425_Transmit(uint8_t* payload);
+void BK2425_RF_CH(uint8_t rf_ch);
+void BK2425_TX_Mode(uint32_t address);
+uint8_t BK2425_Transmit(uint8_t* payload, uint8_t length);
 
 //********************************************************************************************************************//
+#ifdef __cplusplus
+}
 #endif
+#endif /*__BK2425__H */
 
